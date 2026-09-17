@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: campusgigs-postgres
+    environment:
+      POSTGRES_DB: campusgigs
+      POSTGRES_USER: campusgigs
+      POSTGRES_PASSWORD: campusgigs
+    ports:
+      - "5432:5432"
+    volumes:
+      - campusgigs_data:/var/lib/postgresql/data
+
+volumes:
+  campusgigs_data:
