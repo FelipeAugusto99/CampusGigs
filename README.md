@@ -292,7 +292,33 @@ Prestador tentando cancelar uma solicitação:
 403 Forbidden
 ```
 
-## Tratamento de erros
+## Tratamento de erros## Evidências de Testes Manuais
+
+A seguir estão algumas evidências dos testes manuais realizados durante o desenvolvimento da API.
+
+### 1. Login e geração de JWT
+
+Autenticação de usuário realizada com sucesso e geração do token JWT utilizado nas requisições protegidas.
+
+![Login e geração de JWT](evidencias/01-login-jwt.png)
+
+### 2. Acesso a endpoint protegido
+
+Acesso a um endpoint protegido utilizando um token JWT válido no header `Authorization`.
+
+![Endpoint autenticado](evidencias/02-endpoint-autenticado.png)
+
+### 3. Acesso negado por papel — 403 Forbidden
+
+Teste de autorização no qual o contratante tenta aceitar uma solicitação. Essa operação pertence ao prestador do serviço, portanto a API bloqueia a requisição com `403 Forbidden`.
+
+![Acesso negado por papel](evidencias/03-acesso-negado-403.png)
+
+### 4. Integração externa de CEP
+
+Evidência da persistência automática de cidade e UF após a consulta de CEP realizada pelo cliente declarativo `HttpExchange`.
+
+![Integração de CEP](evidencias/04-integracao-cep.png)
 
 A aplicação possui tratamento centralizado de exceções.
 
@@ -389,6 +415,33 @@ src/main/java/br/com/fiap/campusgigs
 ├── security
 └── service
 ```
+## Evidências de Testes Manuais
+
+A seguir estão algumas evidências dos testes manuais realizados durante o desenvolvimento da API.
+
+### 1. Login e geração de JWT
+
+Autenticação de usuário realizada com sucesso e geração do token JWT utilizado nas requisições protegidas.
+
+![Login e geração de JWT](Prints/01-login-jwt.png)
+
+### 2. Acesso a endpoint protegido
+
+Acesso a um endpoint protegido utilizando um token JWT válido no header `Authorization`.
+
+![Endpoint autenticado](Prints/02-endpoint-autenticado.png)
+
+### 3. Acesso negado por papel — 403 Forbidden
+
+Teste de autorização no qual o contratante tenta aceitar uma solicitação. Essa operação pertence ao prestador do serviço, portanto a API bloqueia a requisição com `403 Forbidden`.
+
+![Acesso negado por papel](Prints/03-acesso-negado-403.png)
+
+### 4. Integração externa de CEP
+
+Evidência da persistência automática de cidade e UF após a consulta de CEP realizada pelo cliente declarativo `HttpExchange`.
+
+![Integração de CEP](Prints/04-integracao-cep.png)
 
 ## Autor
 
