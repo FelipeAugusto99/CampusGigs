@@ -2,6 +2,7 @@ package br.com.fiap.campusgigs.controller;
 
 import br.com.fiap.campusgigs.dto.ServicoRequest;
 import br.com.fiap.campusgigs.dto.ServicoResponse;
+import br.com.fiap.campusgigs.dto.SituacaoServicoRequest;
 import br.com.fiap.campusgigs.model.Usuario;
 import br.com.fiap.campusgigs.service.ServicoService;
 import jakarta.validation.Valid;
@@ -32,7 +33,12 @@ public class ServicoController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(servicoService.criar(request, usuario));
+                .body(
+                        servicoService.criar(
+                                request,
+                                usuario
+                        )
+                );
     }
 
     @GetMapping
@@ -77,8 +83,31 @@ public class ServicoController {
         Usuario usuario =
                 (Usuario) authentication.getPrincipal();
 
-        servicoService.excluir(id, usuario);
+        servicoService.excluir(
+                id,
+                usuario
+        );
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
+    @PatchMapping("/{id}/situacao")
+    public ResponseEntity<ServicoResponse> alterarSituacao(
+            @PathVariable Long id,
+            @Valid @RequestBody SituacaoServicoRequest request,
+            Authentication authentication
+    ) {
+        Usuario usuario =
+                (Usuario) authentication.getPrincipal();
+
+        return ResponseEntity.ok(
+                servicoService.alterarSituacao(
+                        id,
+                        request.situacao(),
+                        usuario
+                )
+        );
     }
 }

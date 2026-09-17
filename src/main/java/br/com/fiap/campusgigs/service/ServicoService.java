@@ -47,7 +47,9 @@ public class ServicoService {
     }
 
     public ServicoResponse buscarPorId(Long id) {
-        return new ServicoResponse(buscarServico(id));
+        return new ServicoResponse(
+                buscarServico(id)
+        );
     }
 
     public ServicoResponse atualizar(
@@ -69,12 +71,43 @@ public class ServicoService {
         );
     }
 
-    public void excluir(Long id, Usuario usuario) {
+    public void excluir(
+            Long id,
+            Usuario usuario
+    ) {
         Servico servico = buscarServico(id);
 
         verificarPermissao(servico, usuario);
 
         servicoRepository.delete(servico);
+    }
+
+    public ServicoResponse alterarSituacao(
+            Long id,
+            SituacaoServico novaSituacao,
+            Usuario usuario
+    ) {
+        Servico servico = buscarServico(id);
+
+        verificarPermissao(servico, usuario);
+
+        if (servico.getSituacao() == SituacaoServico.ENCERRADO) {
+            throw new IllegalStateException(
+                    "Um serviço encerrado não pode ter sua situação alterada"
+            );
+        }
+
+        if (servico.getSituacao() == novaSituacao) {
+            throw new IllegalStateException(
+                    "O serviço já está na situação informada"
+            );
+        }
+
+        servico.setSituacao(novaSituacao);
+
+        return new ServicoResponse(
+                servicoRepository.save(servico)
+        );
     }
 
     private Servico buscarServico(Long id) {
@@ -90,7 +123,8 @@ public class ServicoService {
             Servico servico,
             Usuario usuario
     ) {
-        boolean admin = usuario.getRole() == Role.ADMIN;
+        boolean admin =
+                usuario.getRole() == Role.ADMIN;
 
         boolean proprietario =
                 servico.getPrestador()
