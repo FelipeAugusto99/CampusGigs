@@ -14,13 +14,16 @@ public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
     public AuthService(
             UsuarioRepository usuarioRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            TokenService tokenService
     ) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenService = tokenService;
     }
 
     public Usuario cadastrar(CadastroRequest request) {
@@ -51,11 +54,14 @@ public class AuthService {
             throw new IllegalArgumentException("E-mail ou senha inválidos");
         }
 
+        String token = tokenService.gerarToken(usuario);
+
         return new LoginResponse(
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getRole().name(),
+                token,
                 "Login realizado com sucesso"
         );
     }
